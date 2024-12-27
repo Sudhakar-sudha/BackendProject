@@ -77,7 +77,6 @@
 //   };
   
 
-
 const FormDataModel = require("../models/formdataModel");
 const detect = require("detect-file-type");
 const formidable = require("formidable");
@@ -94,21 +93,23 @@ exports.formdata = async (req, res) => {
       return res.status(500).send("Error in file upload");
     }
 
-    // Check if the file is uploaded
-    if (!files.picture) {
-      return res.status(400).json({ error: "No picture file uploaded" });
-    }
-
+    // Log parsed fields and files
     console.log("Fields:", fields);
     console.log("Files:", files);
 
-    console.log(`Name: ${fields.name}`);
-    console.log(`Age: ${fields.age}`);
-    console.log(`File Name: ${files.picture.name}`);
-    console.log(`File Path: ${files.picture.path}`);
+    // Check if the file is uploaded
+    if (!files.picture || !Array.isArray(files.picture) || files.picture.length === 0) {
+      return res.status(400).json({ error: "No picture file uploaded" });
+    }
+
+    const pictureFile = files.picture[0]; // Get the first file if it's an array
+
+    // Log file details
+    console.log(`Original File Name: ${pictureFile.originalFilename}`);
+    console.log(`Temporary File Path: ${pictureFile.filepath}`);
 
     // Detect file type
-    detect.fromFile(files.picture.path, (err, result) => {
+    detect.fromFile(pictureFile.filepath, (err, result) => {
       if (err) {
         console.error("Error detecting file type:", err);
         return res.status(500).send("Error detecting file type");
@@ -128,7 +129,7 @@ exports.formdata = async (req, res) => {
       console.log("Generated Picture Name:", pictureName);
 
       // Move file to target directory
-      const oldPath = files.picture.path;
+      const oldPath = pictureFile.filepath;
       const newPath = path.join(__dirname, "..", "..", "pictures", pictureName);
 
       fs.rename(oldPath, newPath, (err) => {
@@ -146,7 +147,7 @@ exports.formdata = async (req, res) => {
 
         // Insert into MongoDB
         try {
-          FormDataModel.db.collection("formdatas").insertOne(formdata, (err, dbResponse) => {
+          FormDataModel.create(formdata, (err, dbResponse) => {
             if (err) {
               console.error("Error inserting into MongoDB:", err);
               return res.status(500).send("MongoDB insert failed");
