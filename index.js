@@ -10,6 +10,9 @@ dotenv.config({path:path.join(__dirname,'config','config.env')})
 const userdata = require ('./routes/User');
 const formdata = require ('./routes/FormData')
 connectDatabase();
+
+// Serve images from the 'pictures' folder
+app.use('/pictures', express.static(path.join(__dirname, 'pictures')));
 app.use(cors());
 app.use(express.json());
 
