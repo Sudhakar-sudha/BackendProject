@@ -75,12 +75,12 @@
 //   })
 //     res.send("uploading image");
 //   };
+const fs = require("fs");
+const path = require("path");
 const FormDataModel = require("../models/formdataModel");
 const detect = require("detect-file-type");
 const formidable = require("formidable");
 const { v1: uuidv1 } = require("uuid");
-const fs = require("fs");
-const path = require("path");
 
 exports.formdata = async (req, res) => {
   const form = new formidable.IncomingForm();
@@ -123,12 +123,19 @@ exports.formdata = async (req, res) => {
         fs.mkdirSync(targetDirectory, { recursive: true });
       }
 
-      // Move file to target directory
-      fs.rename(pictureFile.filepath, targetPath, (err) => {
+      // Copy file to target directory and delete source
+      fs.copyFile(pictureFile.filepath, targetPath, (err) => {
         if (err) {
-          console.error("Error moving file:", err);
-          return res.status(500).send("Cannot move file");
+          console.error("Error copying file:", err);
+          return res.status(500).send("Cannot copy file");
         }
+
+        // Delete the source file
+        fs.unlink(pictureFile.filepath, (unlinkErr) => {
+          if (unlinkErr) {
+            console.error("Error deleting temp file:", unlinkErr);
+          }
+        });
 
         // Save to database
         const formdata = {
