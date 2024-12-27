@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/user',userdata);
-app.use("/formdata", formdata);
+app.use('/formdata', formdata);
 
 app.listen(process.env.PORT ,() =>{
 console.log(`Server is running   ${process.env.PORT} port  for ${process.env.NODE_ENV}`);
