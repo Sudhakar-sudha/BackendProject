@@ -9,6 +9,9 @@ dotenv.config({path:path.join(__dirname,'config','config.env')})
 
 const userdata = require ('./routes/User');
 const formdata = require ('./routes/FormData')
+const addproduct = require('./routes/addproduct');
+
+
 connectDatabase();
 
 // Serve images from the 'pictures' folder
@@ -18,6 +21,8 @@ app.use(express.json());
 
 app.use('/user',userdata);
 app.use('/formdata', formdata);
+app.use('/addproduct',addproduct)
+
 
 app.listen(process.env.PORT ,() =>{
 console.log(`Server is running   ${process.env.PORT} port  for ${process.env.NODE_ENV}`);
