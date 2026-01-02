@@ -1,31 +1,52 @@
-const express= require ("express");
-const cors = require('cors');
-const app= express();
-const dotenv =require("dotenv");
-const path=require("path");
-const connectDatabase = require('./config/connectDatabase')
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
-dotenv.config({path:path.join(__dirname,'config','config.env')})
+import db1 from "./config/db1.js";
+import db2 from "./config/db2.js";
 
-const userdata = require ('./routes/User');
-const formdata = require ('./routes/FormData')
-const addproduct = require('./routes/addproduct');
+import gym from "./Gym/routes/index.js";
+import aibak from "./Aibak/routes/index.js";
+import errorHandler from "./Aibak/middleware/errorHandler.js";
+import path from "path";
 
 
-connectDatabase();
+dotenv.config();
 
-// Serve images from the 'pictures' folder
-app.use('/pictures', express.static(path.join(__dirname, 'pictures')));
-app.use(cors());
+const app = express();
+
+// Middleware
 app.use(express.json());
+app.use(cors({
+  origin: ["http://localhost:5173", "http://localhost:5174"],
+  credentials: true,
+}));
+app.use(cookieParser());
 
-app.use('/user',userdata);
-app.use('/formdata', formdata);
-app.use('/addproduct',addproduct)
-
-
-app.listen(process.env.PORT ,() =>{
-console.log(`Server is running   ${process.env.PORT} port  for ${process.env.NODE_ENV}`);
+// Test route
+app.get("/", (req, res) => {
+  res.send("Backend is running...");
 });
 
+const __dirname = path.resolve();
+// Static Files
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+// Routes
+app.use("/gym", gym);
+app.use("/aibak", aibak);
+
+// Health check
+app.get("/api/health", (req, res) => {
+  res.json({ ok: true, env: process.env.NODE_ENV });
+});
+
+// Error handler
+app.use(errorHandler);
+
+// Server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+});

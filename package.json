@@ -1,28 +1,42 @@
 {
-  "name": "backendproject",
+  "name": "aibaik-backend",
   "version": "1.0.0",
+  "description": "Aibaik is a full-stack food ordering and restaurant reservation system.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "node index.js",
+    "dev": "nodemon indexjs"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LocalEStartup/Aibaik-backend.git"
+  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "\"# BackendProject\"",
+  "bugs": {
+    "url": "https://github.com/LocalEStartup/Aibaik-backend/issues"
+  },
+  "homepage": "https://github.com/LocalEStartup/Aibaik-backend#readme",
   "dependencies": {
-    "bcrypt": "^5.1.1",
-    "body-parser": "^1.20.3",
+    "bcryptjs": "^3.0.2",
+    "cloudinary": "^1.41.3",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
-    "detect-file-type": "^0.2.8",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "formidable": "^3.5.2",
-    "mongoose": "^8.9.5",
-    "multer": "^1.4.5-lts.1",
-    "nodemailer": "^6.9.16",
-    "nodemon": "^3.1.9",
-    "uuid": "^11.0.3"
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "googleapis": "^159.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
+    "mongoose": "^8.18.1",
+    "multer": "^2.0.2",
+    "multer-storage-cloudinary": "^4.0.0",
+    "nodemailer": "^7.0.6",
+    "razorpay": "^2.9.6"
   },
-  "keywords": []
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
 }
