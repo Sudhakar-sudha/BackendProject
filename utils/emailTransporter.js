@@ -49,13 +49,14 @@
 // module.exports = { createTransporter, sendWelcomeEmail };
 
 
+import nodemailer from "nodemailer";
 
-const nodemailer = require('nodemailer');
 function createTransporter() {
   const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
   if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS) {
-    console.warn('SMTP env vars missing — emails will not be sent');
-    return null;}
+    console.warn("SMTP env vars missing — emails will not be sent");
+    return null;
+  }
   return nodemailer.createTransport({
     host: SMTP_HOST,
     port: Number(SMTP_PORT),
@@ -66,16 +67,18 @@ function createTransporter() {
     },
   });
 }
-async function sendEmail({ to, subject, html }) {
+
+export async function sendEmail({ to, subject, html }) {
   const transporter = createTransporter();
   if (!transporter) {
     console.log(`Skipping email to ${to} — transporter not configured`);
     return;
   }
-  const from = process.env.FROM_EMAIL || 'no-reply@example.com';
+  const from = process.env.FROM_EMAIL || "no-reply@example.com";
   return transporter.sendMail({ from, to, subject, html });
 }
-async function sendWelcomeEmail({ to, name }) {
+
+export async function sendWelcomeEmail({ to, name }) {
   const html = `
     <div style="font-family: Arial, sans-serif; line-height:1.4">
       <h2 style="color:#c0262e">Welcome, ${name}!</h2>
@@ -83,6 +86,5 @@ async function sendWelcomeEmail({ to, name }) {
       <p>If you need help, reply to this email.</p>
     </div>
   `;
-  return sendEmail({ to, subject: 'Welcome to AIBAIK!', html });
+  return sendEmail({ to, subject: "Welcome to AIBAIK!", html });
 }
-module.exports = { sendEmail, sendWelcomeEmail };

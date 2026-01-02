@@ -1,5 +1,6 @@
 // middleware/errorHandler.js
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
+
 
 const errorHandler = (err, req, res, next) => {
   console.error(err);
@@ -20,4 +21,4 @@ const errorHandler = (err, req, res, next) => {
   res.status(status).json({ message });
 };
 
-module.exports = errorHandler;
+export default errorHandler;
