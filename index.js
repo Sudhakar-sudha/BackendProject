@@ -16,27 +16,11 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:5174",
-  "https://aibaik.vercel.app"
-];
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      } else {
-        return callback(new Error("CORS not allowed"));
-      }
-    },
-    credentials: true,
-  })
-);
 app.use(express.json());
 app.use(cookieParser());
 
