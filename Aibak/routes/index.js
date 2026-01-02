@@ -1,13 +1,13 @@
-const express = require("express");
-const router = express.Router();
+import express from "express";
+import menuRoutes from "./menuRoutes.js";
+import authRoutes from "./authRoutes.js";
+import chefRoutes from "./chefRoutes.js";
+import cartRoutes from "./cartRoutes.js";
+import orderRoutes from "./orderRoutes.js";
+import adminOrderRoutes from "./adminOrderRoutes.js";
+import reservationRoutes from "./reservationRoutes.js";
 
-const menuRoutes = require("./menuRoutes");
-const authRoutes = require("./authRoutes");
-const chefRoutes = require("./chefRoutes");
-const cartRoutes = require("./cartRoutes");
-const orderRoutes = require("./orderRoutes");
-const adminOrderRoutes = require("./adminOrderRoutes");
-const reservationRoutes = require("./reservationRoutes");
+const router = express.Router();
 
 // routes
 router.use('/api/auth', authRoutes);
@@ -18,4 +18,4 @@ router.use('/api/cart/order', orderRoutes);
 router.use('/api/admin/orders', adminOrderRoutes);
 router.use('/api/reservations', reservationRoutes);
 
-module.exports = router;  // ✅ VERY IMPORTANT
+export default router;

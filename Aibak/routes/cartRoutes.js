@@ -1,10 +1,11 @@
-const express = require("express");
+import express from "express";
+import { addToCart, getCart, removeFromCart } from "../controllers/cartController.js";
+
 const router = express.Router();
-const { addToCart, getCart, removeFromCart } = require("../controllers/cartController");
 
 // All routes need user to be logged in
 router.post("/", addToCart);
 router.get("/", getCart);
 router.delete("/:menuItemId", removeFromCart);
 
-module.exports = router;
+export default router;

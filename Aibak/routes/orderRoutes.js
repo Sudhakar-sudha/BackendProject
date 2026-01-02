@@ -1,6 +1,7 @@
-const express = require("express");
+import express from "express";
+import orderController from "../controllers/orderController.js";
+
 const router = express.Router();
-const orderController = require("../controllers/orderController");
 
 // 🟢 Create a Razorpay order (frontend uses this to get order_id & key)
 router.post("/payment/create", orderController.createRazorpayOrder);
@@ -14,4 +15,4 @@ router.get("/user/:userId", orderController.getUserOrders);
 // 🟢 Cancel an order by ID
 router.put("/cancel/:id", orderController.cancelOrder);
 
-module.exports = router;
+export default router;

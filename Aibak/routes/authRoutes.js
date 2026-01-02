@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import { body } from 'express-validator';
+import authController from '../controllers/authController.js';
+
 const router = express.Router();
-const { body } = require('express-validator');
-const authController = require('../controllers/authController')
 
 router.post(
   '/register',
@@ -25,4 +26,5 @@ router.delete("/:id", authController.deleteUser);
 router.put("/:id",  authController.updateUser);
 router.get("/:id", authController.getUserById);
 
-module.exports = router;
+export default router;
+
