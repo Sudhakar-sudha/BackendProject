@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
+import { fileURLToPath } from "url";
 import  "./config/db1.js";
 import  "./config/db2.js";
 
@@ -24,12 +24,14 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
+const __dirname = path.resolve();
+
+app.use(express.static(path.join(__dirname, "public")));
 // Test route
 app.get("/", (req, res) => {
-  res.send("Backend is running...");
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-const __dirname = path.resolve();
 // Static Files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
