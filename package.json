@@ -1,6 +1,7 @@
 {
   "name": "aibaik-backend",
   "version": "1.0.0",
+  "type": "module",
   "description": "Aibaik is a full-stack food ordering and restaurant reservation system.",
   "main": "index.js",
   "scripts": {

@@ -1,13 +1,18 @@
 import express from "express";
-import adminOrderController from "../controllers/adminOrderController.js";
+
+import {
+  getAllOrders,
+  updateOrder,
+  deleteOrder,
+} from "../controllers/adminOrderController.js";
 
 const router = express.Router();
 
-// Optional: add an adminAuth middleware if you have admin authentication
-// const { adminAuth } = require("../middleware/auth");
+// Optional: add adminAuth middleware later
+// import { adminAuth } from "../middleware/auth.js";
 
-router.get("/",    /* adminAuth, */ adminOrderController.getAllOrders);
-router.put("/:id", /* adminAuth, */ adminOrderController.updateOrder);
-router.delete("/:id", /* adminAuth, */ adminOrderController.deleteOrder);
+router.get("/", /* adminAuth, */ getAllOrders);
+router.put("/:id", /* adminAuth, */ updateOrder);
+router.delete("/:id", /* adminAuth, */ deleteOrder);
 
 export default router;

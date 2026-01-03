@@ -33,12 +33,6 @@ const __dirname = path.resolve();
 // Static Files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-app._router.stack.forEach((r) => {
-  if (r.route && r.route.path) {
-    console.log(r.route.path);
-  }
-});
-
 
 // Routes
 app.use("/gym", gym);

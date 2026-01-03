@@ -1,18 +1,24 @@
 import express from "express";
-import orderController from "../controllers/orderController.js";
+
+import {
+  createRazorpayOrder,
+  verifyPaymentAndPlaceOrder,
+  getUserOrders,
+  cancelOrder,
+} from "../controllers/orderController.js";
 
 const router = express.Router();
 
-// 🟢 Create a Razorpay order (frontend uses this to get order_id & key)
-router.post("/payment/create", orderController.createRazorpayOrder);
+// 🟢 Create a Razorpay order
+router.post("/payment/create", createRazorpayOrder);
 
 // 🟢 Verify payment & place final order
-router.post("/payment/verify", orderController.verifyPaymentAndPlaceOrder);
+router.post("/payment/verify", verifyPaymentAndPlaceOrder);
 
 // 🟢 Get all orders for a specific user
-router.get("/user/:userId", orderController.getUserOrders);
+router.get("/user/:userId", getUserOrders);
 
 // 🟢 Cancel an order by ID
-router.put("/cancel/:id", orderController.cancelOrder);
+router.put("/cancel/:id", cancelOrder);
 
 export default router;
