@@ -51,13 +51,24 @@ export const register = async (req, res) => {
 
     await user.save();
 
-    // send OTP email
-    await sendEmail({
-      to: email,
-      subject: 'Verify your email - OTP',
-      html: `<p>Your OTP is: <strong>${otp}</strong></p>
+    await fetch('https://email-service-chi-lemon.vercel.app/send-mail', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to: email,
+        subject: 'Verify your email - OTP',
+        message: `<p>Your OTP is: <strong>${otp}</strong></p>
              <p>This code will expire in 5 minutes.</p>`,
+      }),
     });
+
+    // send OTP email
+    // await sendEmail({
+    //   to: email,
+    //   subject: 'Verify your email - OTP',
+    //   html: `<p>Your OTP is: <strong>${otp}</strong></p>
+    //          <p>This code will expire in 5 minutes.</p>`,
+    // });
 
     // Do not log password or OTP in production!
     res.status(201).json({
@@ -85,12 +96,23 @@ export const sendOtp = async (req, res) => {
     user.otpExpires = moment().add(5, 'minutes').toDate();
     await user.save();
 
-    await sendEmail({
-      to: email,
-      subject: 'Your OTP Code',
-      html: `<p>Your OTP is: <strong>${otp}</strong></p>
+
+    await fetch('https://email-service-chi-lemon.vercel.app/send-mail', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to: email,
+        message: `<p>Your OTP is: <strong>${otp}</strong></p>
              <p>This code will expire in 5 minutes.</p>`,
+      }),
     });
+
+    // await sendEmail({
+    //   to: email,
+    //   subject: 'Your OTP Code',
+    //   html: `<p>Your OTP is: <strong>${otp}</strong></p>
+    //          <p>This code will expire in 5 minutes.</p>`,
+    // });
 
     res.status(200).json({ message: 'OTP sent to email' });
   } catch (err) {
@@ -116,14 +138,26 @@ export const resendOtp = async (req, res) => {
     // console.log(user);
     await user.save();
 
-    await sendEmail({
-      to: email,
-      subject: 'Resend OTP for Verification',
-      html: `<p>Your new OTP is: <strong>${otp}</strong></p>
+
+    await fetch('https://email-service-chi-lemon.vercel.app/send-mail', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to: email,
+        subject: 'Resend OTP for Verification',
+        message: `<p>Your new OTP is: <strong>${otp}</strong></p>
              <p>This code will expire in 5 minutes.</p>`,
+      }),
     });
 
-    res.status(200).json({"success": true, message: 'New OTP sent to email' });
+    // await sendEmail({
+    //   to: email,
+    //   subject: 'Resend OTP for Verification',
+    //   html: `<p>Your new OTP is: <strong>${otp}</strong></p>
+    //          <p>This code will expire in 5 minutes.</p>`,
+    // });
+
+    res.status(200).json({ "success": true, message: 'New OTP sent to email' });
   } catch (err) {
     console.error('Resend OTP error:', err);
     res.status(500).json({ message: 'Server error', error: err.message });
@@ -264,7 +298,7 @@ export const getUserById = async (req, res) => {
  */
 export const updateUser = async (req, res) => {
   try {
-    const updates = (({ name, email, phone, address, role }) => 
+    const updates = (({ name, email, phone, address, role }) =>
       ({ name, email, phone, address, role }))(req.body);
 
     const user = await User.findByIdAndUpdate(
