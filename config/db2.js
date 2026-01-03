@@ -3,11 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-
-const db2 = mongoose.createConnection(process.env.MONGO_URI2, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const db2 = mongoose.createConnection(process.env.MONGO_URI2);
 
 db2.on("connected", () => {
   console.log("✅ DB2 Connected");

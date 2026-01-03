@@ -3,8 +3,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
-import db1 from "./config/db1.js";
-import db2 from "./config/db2.js";
+import  "./config/db1.js";
+import  "./config/db2.js";
 
 import gym from "./Gym/routes/index.js";
 import aibak from "./Aibak/routes/index.js";
@@ -49,5 +49,5 @@ app.use(errorHandler);
 // Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on ${PORT}`);
 });
